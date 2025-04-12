@@ -1,0 +1,528 @@
+    <head>
+        <style>
+            .print-format {
+                font-family: 'Open Sans', sans-serif;
+                margin-left:3mm;
+                margin-top:2mm;
+                margin-right:1.5mm;
+            }
+            .mytab {
+                font-size: 9px !important;
+                font-family: sans-serif !important;
+            }
+            .perfo-chart {
+                position: relative;
+                width: 100%;
+            }
+
+            .barchart-Wrapper {
+              display: table;
+              position: relative;
+              margin: 20px 0;
+              height: 180px;
+            }
+            .barChart-Container {
+              display: table-cell;
+              width: 100%;
+              height: 100%;
+              padding-left: 20px;
+              padding-right: 20px;
+            }
+            .barchart {
+             display: table;
+             table-layout: fixed;
+             height: 100%;
+             width: 100%;
+             border-bottom: 3px solid darkgrey;
+            }
+            .barchart-Col {
+              position: relative;
+              vertical-align: bottom;
+              display: table-cell;
+              height: 100%;
+              left:35px;
+            }
+            .barchart-Col + .barchart-Col {
+              border-left: 4px solid transparent;
+              border: 0.5px solid lightgrey;
+            }
+            .barchart-Bar {
+              position: static;
+              height: 0;
+              transition: height 0.5s 2s;
+              width: 10px;
+              margin: auto;
+            }
+            .barchart-Bar:after {
+              content: attr(attr-height);
+              color: white;
+              position: absolute;
+              text-align: center;
+              width: 100%;
+            }
+            .barchart-BarFooter {
+              position: absolute;
+              text-align: center;
+              height: 10%;
+            }
+            .barchart-BarFooter h3 {
+                font-size: 13px;
+              color: #2F4F4F;
+              padding-top: 4px;
+              margin-top: 4px;
+            }
+            .barchart-TimeCol {
+              position: absolute;
+              top: 0;
+              height: 100%;
+              width: 100%;
+            }
+            .barchart-Time {
+              height: 25%;
+              vertical-align: middle;
+              position: relative;
+              
+            }
+            .barchart-Time:after {
+              border-bottom: 3px solid white;
+              content: "";
+              position: absolute;
+              width: 100%;
+              left: 0;
+              top: 0em;
+            }
+            .barchart-TimeText {
+              position: absolute;
+              top: -16px;
+              z-index: 1;
+              background: white;
+              padding-right: 3px;
+              color: #4d4d4d;
+              font-size: 13px;
+              font-family: 'Avenir Medium';
+              background-color:transparent;
+            }
+            .sales-jan {
+              background-color: #2F4F4F;
+              display: inline-block;
+            }
+            .return-jan {
+              background-color: #FF6347;
+              display: inline-block;
+            }
+            .pay-jan {
+              background-color: #9932CC;
+              display: inline-block;
+            }
+            .sales-feb {
+              background-color: #2F4F4F;
+              display: inline-block;
+            }
+            .return-feb {
+              background-color: #FF6347;
+              display: inline-block;
+            }
+            .pay-feb {
+              background-color: #9932CC;
+              display: inline-block;
+            }
+            .sales-march {
+              background-color: #2F4F4F;
+              display: inline-block;
+            }
+            .return-march {
+              background-color: #FF6347;
+              display: inline-block;
+            }
+            .pay-march {
+              background-color: #9932CC;
+              display: inline-block;
+            }
+            .sales-april {
+              background-color: #2F4F4F;
+              display: inline-block;
+            }
+            .return-april {
+              background-color: #FF6347;
+              display: inline-block;
+            }
+            .pay-april {
+              background-color: #9932CC;
+              display: inline-block;
+            }
+            .sales-may {
+              background-color: #2F4F4F;
+              display: inline-block;
+            }
+            .return-may {
+              background-color: #FF6347;
+              display: inline-block;
+            }
+            .pay-may {
+              background-color: #9932CC;
+              display: inline-block;
+            }
+            .sales-june {
+              background-color: #2F4F4F;
+              display: inline-block;
+            }
+            .return-kune {
+              background-color: #FF6347;
+              display: inline-block;
+            }
+            .pay-june {
+              background-color: #9932CC;
+              display: inline-block;
+            }
+            .sales-july {
+              background-color: #2F4F4F;
+              display: inline-block;
+            }
+            .return-july {
+              background-color: #FF6347;
+              display: inline-block;
+            }
+            .pay-july {
+              background-color: #9932CC;
+              display: inline-block;
+            }
+            .sales-aug {
+              background-color: #2F4F4F;
+              display: inline-block;
+            }
+            .return-aug {
+              background-color: #FF6347;
+              display: inline-block;
+            }
+            .pay-aug {
+              background-color: #9932CC;
+              display: inline-block;
+            }
+            .sales-sept {
+              background-color: #2F4F4F;
+              display: inline-block;
+            }
+            .return-sept {
+              background-color: #FF6347;
+              display: inline-block;
+            }
+            .pay-sept {
+              background-color: #9932CC;
+              display: inline-block;
+            }
+            .sales-oct {
+              background-color: #2F4F4F;
+              display: inline-block;
+            }
+            .return-oct {
+              background-color: #FF6347;
+              display: inline-block;
+            }
+            .pay-oct {
+              background-color: #9932CC;
+              display: inline-block;
+            }
+            .sales-nov {
+              background-color: #2F4F4F;
+              display: inline-block;
+            }
+            .return-nov {
+              background-color: #FF6347;
+              display: inline-block;
+            }
+            .pay-nov {
+              background-color: #9932CC;
+              display: inline-block;
+            }
+            .sales-dec {
+              background-color: #2F4F4F;
+              display: inline-block;
+            }
+            .return-dec {
+              background-color: #FF6347;
+              display: inline-block;
+            }
+            .pay-dec {
+              background-color: #9932CC;
+              display: inline-block;
+            }
+        </style>
+    </head>
+    <meta name="pdfkit-orientation" content="Portrait"/>
+    
+    {% set company_details = frappe.db.get_list('Company', filters = {'name' : company }, fields = ['company_name', 'phone_no', 'email', 'tax_id', 'company_logo', 'website']) %}
+    {% if company_details %}
+    {% set company_logo = company_details[0].company_logo %}
+    {% set company_address_line1 = '' %}
+    {% set company_city = '' %}
+    {% set company_country = '' %}
+    {% set company_state = '' %}
+    {% set phone = company_details[0].phone_no %}
+    {% set website = company_details[0].website %}
+    {% set email = company_details[0].email %}
+    {% set tax_id = company_details[0].tax_id %}
+
+    {% endif%}
+
+    {% set company_address_name = frappe.db.get_value("Dynamic Link", {"link_doctype": "Company" , "link_name":
+    company }, "parent") %}
+
+    {% if company_address_name %}
+    {% set address = frappe.db.get_value("Address" ,company_address_name , ["address_line1", "address_title" , "city" ,
+    "country" , "state" , "email_id" , "phone" ], as_dict = 1) %}
+    {% set company_address_line1 = address.address_line1 %}
+    {% set company_city = address.city %}
+    {% set company_country = address.country %}
+    {% set company_state = address.state %}
+    {% set phone = address.phone %}
+    {% endif %}
+
+<div class="out-div" style="width: 100%; padding-top: 10px; margin-top: 10px !important;">
+<table class="mytab" style="width: 100%;margin-top: 10px !important;" border="1">
+    <tr>
+        <td colspan='1' style="width:37%;">
+            <div style="width:37%;">
+                {% if company_logo %}
+                <img src="{{ company_logo }}" alt="Company Logo" height = "80px" width="100%">
+            {% else %}
+                <img src="/files/Impala.png" alt="Default Company Logo" height = "80px" width="100%">
+            {% endif %}
+            </div>
+            
+        </td>
+        <td colspan='1' style="width:63%;">
+            <p style="font-size: 14px !important; font-family: sans-serif;"><b>{{company}} </b> </p>
+            <p style="font-size: 9px !important; font-family: sans-serif;"> {% if company_address_line1 %}{{company_address_line1}} {%
+                endif %}
+            </p>
+            <p class="" style="font-size: 9px !important; font-family: sans-serif;"> {% if company_city %} {{ company_city }} {% endif %} {% if
+                company_state
+                %} {{ company_state }} {% endif %} {% if company_country %} {{ company_country }} {% endif %}
+            </p>
+            <p class="" style="font-size: 9px !important; font-family: sans-serif;"> P#: {{ phone or "" }} </p>
+            <p class="" style="font-size: 9px !important; font-family: sans-serif;"> Email: {{email or "" }} </p>
+            <p class="" style="font-size: 9px !important; font-family: sans-serif;"> PIN NO: {{tax_id or "" }} </p>
+            <p class="" style="font-size: 9px !important; font-family: sans-serif;"> Website: {{website or "" }}</p>
+
+        </td>
+    </tr>
+
+    <tr>
+        <th colspan='2' style="width: 100%;" class="bg-light fw-bold">
+            <p class="text-center bg-light fw-bold" style="font-size: 13px; font-family: sans-serif; font-weight: 700;"> {{party_type}} Statement</p>
+        </th>
+    </tr>
+
+    <tr>
+        <td style="width: 50%; border-right:none;">
+            <p style="font-size: 9px !important; font-family: sans-serif;">
+                {{party_type}}: {{ party_name }}<br>
+                <span style="text-indent: 55px !important; padding-left: 56px; font-size: 9px !important; font-family: sans-serif;">{{party}}</span>
+            </p>
+            <p style="font-size: 9px !important; font-family: sans-serif;">
+                Email: {{email_id}}
+            </p>
+            <p style="font-size: 9px !important; font-family: sans-serif;">
+                PIN#: {{pin_no}}
+            </p>
+            <p>
+                {% if customer_personal_detail %}
+                Address:
+                {{  customer_personal_detail["address_line1"]  or "" }}
+                {{  customer_personal_detail["city"]  or "" }}
+                {{  customer_personal_detail["country"]  or "" }}
+                {% endif %}
+            </p>
+        </td>
+        <td class="width: 50%; text-right; text-indent: 110px;" style="border-left:none;">
+            <p style="font-size: 9px !important; font-family: sans-serif; text-align: right;" > Currency: {{customer_personal_detail["currency"]}}</p> 
+            <p style="font-size: 9px !important; font-family: sans-serif; text-align: right; font-weight:bold;"> Amount Due: {{ amount_due }} </p>
+            <p style="font-size: 9px !important; font-family: sans-serif; text-align: right;"> Printed On: {{frappe.format(creation, {'fieldtype': 'Datetime'}) }}</p>
+            <p style="font-size: 9px !important; font-family: sans-serif; text-align: right;">
+                Report Date Range: {{frappe.format(start_date, {'fieldtype':'Date'}) }} - {{frappe.format(end_date, {'fieldtype': 'Date'})}} 
+            </p>
+        </td>
+
+    </tr>
+</table>
+<table class="mytab" width="100%" style="padding: 0px !important; margin:0px !important" cellpadding="0" cellspacing="0">
+        <thead style="width: 100%;">
+            <tr>
+                <td colspan='4' style="text-align: left; font-size: 9px !important; font-family: sans-serif;">{{party_type}} Code: {{party}}</td>
+                <td colspan='5' style='text-indent: 50px; text-align: right; font-size: 9px !important; font-family: sans-serif;'>{{party_type}} Name: {{party_name}}</td>
+            </tr>
+            <tr style="width: 100%;">
+                <th style="text-align: left; font-size: 9px !important;"> Date </th>
+                <th style="text-align: left; font-size: 9px !important;"> No </th>
+                <th style="text-align: left; font-size: 9px !important;"> Description </th>
+                <th style="text-align: left; font-size: 9px !important;"> Allocation </th>
+                <!-- <th style="text-align: left; font-size: 9px !important;"> Ref No </th> -->
+                <th style="text-align: left; font-size: 9px !important;"> Chq Ref Date </th>
+                <th style="text-align: left; font-size: 9px !important;"> Mode of Payment </th>
+                <th style="text-align: left; font-size: 9px !important;"> Cheque / Ref No </th>
+                <th style="text-align: right; font-size: 9px !important;"> Debit </th>
+                <th style="text-align: right; font-size: 9px !important;"> Credit </th>
+                <th style="text-align: right; font-size: 9px !important;"> Balance </th>
+            </tr>
+        </thead>
+        <tbody>
+          {% if report_rows %}
+          
+          {% if report_rows[0].get("voucher_no") or report_rows[0].get("description") %}
+          <tr style="width: 100%;">
+              <td style="font-size: 9px !important;"></td>
+              <td style="font-size: 9px !important;"></td>
+              <td style="font-size: 9px !important;"> {{ report_rows[0].description }} </td>
+              <td style="font-size: 9px !important;"> {{ report_rows[0].allocation or "" }} </td>
+              <!-- <td style="font-size: 9px !important;"> {{ report_rows[0].ref_no or "" }} </td> -->
+              <td style="font-size: 9px !important;"> {{ report_rows[0].chq_ref_date or "" }} </td>
+              <td style="font-size: 9px !important;"> {{ report_rows[0].mode_of_payment or "" }} </td>
+              <td style="font-size: 9px !important;">{{report_rows[0].cheque_no or ""}}</td>
+              <td style="text-align: right; font-size: 9px !important;">  </td>
+              <td style="text-align: right; font-size: 9px !important;">  </td>
+              <td style="text-align: right; font-size: 9px !important;"> {{ '{0:,.2f}'.format( report_rows[0].balance ) }} </td>
+          </tr>
+          {% endif %}
+
+          
+          {% for i in report_rows[1:] %}
+          {% if i.get("voucher_no") or i.get("description") %}
+          <tr style="width: 100%;">
+              <td style="width: 10%; font-size: 9px !important;"> {{i.get('date')}} </td>
+              <td style="width: 10%; font-size: 9px !important;"> {{ i.voucher_no or ""}} </td>
+              <td style="width: 10%; font-size: 9px !important;"> {{ i.description }} </td>
+              <td style="width: 10%; font-size: 9px !important;"> {{ i.allocation or "" }} </td>
+              <!-- <td style="width: 8%; font-size: 9px !important;"> {{ i.ref_no or "" }} </td> -->
+              <td style="width: 10%; font-size: 9px !important;"> {{ i.chq_ref_date or "" }} </td>
+              <td style="width: 10%; font-size: 9px !important;"> {{ i.mode_of_payment or "" }} </td>
+              <td style="width: 10%; font-size: 9px !important;">{{i.cheque_no or ""}}</td>
+              <td style="width: 10%; text-align: right; font-size: 9px !important;"> {{ '{0:,.2f}'.format( i.debit ) }} </td>
+              <td style="width: 10%; text-align: right; font-size: 9px !important;"> {{ '{0:,.2f}'.format( i.credit ) }} </td>
+              <td style="width: 10%; text-align: right; font-size: 9px !important;"> {{ '{0:,.2f}'.format( i.balance ) }} </td>
+          </tr>
+          {% endif %}
+
+          {% endfor %}
+          {% endif %}
+  </tbody>
+</table>
+
+<table class="mytab" style="width:100%; margin-top: 10px !important;">
+    <tr colspan='9' style="width:100% !important; padding:0px;">
+        <td class="text-center" style="width: 65% !important; padding:0px; border-collapse: collapse;">
+            <table width="100%">
+                <tr style="width:100%; border: 1px solid black;">
+                    <th colspan='5' style="width:100%;  border: 1px solid black;  border-collapse: collapse; font-size: 9px !important; font-family: sans-serif; text-align: center;"> Ageing Summary</th>
+                </tr>
+
+                <tr style="width:100%">
+                    <th style="wid th:20%; border: 1px solid black;  border-collapse: collapse; text-align: center; font-size: 9px !important;"> 30 </td>
+                    <th style="width:20%;  border: 1px solid black;  border-collapse: collapse; text-align: center; font-size: 9px !important;"> 60 </td>
+                    <th style="width:20%;  border: 1px solid black;  border-collapse: collapse; text-align: center; font-size: 9px !important;"> 90 </td>
+                    <th style="width:20%;  border: 1px solid black;  border-collapse: collapse; text-align: center; font-size: 9px !important;"> 120 </td>
+                    <th style="width:20%;  border: 1px solid black;  border-collapse: collapse; text-align: center; font-size: 9px !important;"> Above </td>
+                </tr>
+
+
+                <tr style="width: 100%">
+                    <td style="width:20%;  border: 1px solid black;  border-collapse: collapse; text-align: center; font-size: 9px !important;"> {{ '{0:,.2f}'.format(age_30|flt) }}</td>
+                    <td style="width:20%;  border: 1px solid black;  border-collapse: collapse; text-align: center; font-size: 9px !important;"> {{ '{0:,.2f}'.format(age_60|flt) }}</td>
+                    <td style="width:20%;  border: 1px solid black;  border-collapse: collapse; text-align: center; font-size: 9px !important;"> {{ '{0:,.2f}'.format(age_90|flt) }}</td>
+                    <td style="width:20%;  border: 1px solid black;  border-collapse: collapse; text-align: center; font-size: 9px !important;"> {{ '{0:,.2f}'.format(age_120|flt) }}</td>
+                    <td style="width:20%;  border: 1px solid black;  border-collapse: collapse; text-align: center; font-size: 9px !important;"> {{ '{0:,.2f}'.format(age_120_above|flt) }}</td>
+                </tr>
+
+            </table>
+        </td>
+        <td style="width:35%; border:none; padding:0px;">
+            <table width="100%">
+                <tr style="width: 100%;">
+                    <td style="width: 50%; font-weight: 700; font-size: 9px !important;"> Opening Balance </th>
+                    <td style="width: 50%; text-align : right; font-size: 9px !important;">
+                        {{ '{0:,.2f}'.format( report_rows[0].balance ) }}
+                    </td>
+                </tr>
+                
+                <tr style=" width: 100%; ">
+                    <td style=" width: 50%; font-weight: 700; font-size: 9px !important;"> Debit </th>
+                    <td style=" width: 50%; text-align : right; font-size: 9px !important;">
+
+                        {{ '{0:,.2f}'.format(total_sales|flt) }}
+                    </td>
+                </tr>
+                <tr style=" width: 100%;">
+                    <td style=" width: 50%;  font-weight: 700; font-size: 9px !important;"> Credit </th>
+                    <td style=" width: 50%; text-align: right; font-size: 9px !important;">
+                        {{ '{0:,.2f}'.format(total_payment|flt) }}
+                    </td>
+                </tr>
+                <tr style=" width: 100%;">
+                    <td style=" width: 50%;  font-weight: 700; font-size: 9px !important;"> Balance </th>
+                    <td style=" width: 50%; text-align: right; font-size: 9px !important;">
+                        {{ '{0:,.2f}'.format(amount_due|flt) }}
+                    </td>
+                </tr>
+            </table>
+
+        </td>
+    </tr>
+</table>
+
+<table class="mytab" width="100%" style="padding: 0px !important; margin:0px !important; page-break-before: always !important;" cellpadding="0" cellspacing="0">
+<tr style="width:100% !important; padding:0px;">
+        <td colspan='9' class="text-center" style="width: 50% !important; border:none; padding:0px;">
+            <table width="100%">
+                <tr>
+                    <td colspan='4' style='width: 50% text-align: left; font-size: 9px; font-family: sans-serif;'>{{party_type}} Code: {{party}}</td>
+                    <td colspan='5' style='width: 50%; text-indent: 50px; text-align: right; font-size: 9px; font-family: sans-serif;'>{{party_type}} Name: {{party_name}}</td>
+                </tr>
+                <tr style="width:100%">
+                    <th colspan='9' style="width:100%; font-size: 9px !important; text-align: center;"> PD Cheques Summary</th>
+                </tr>
+
+                <tr style="width:100%">
+                    <th colspan='2' style="width:20%; text-align: left; font-size: 9px !important;"> Posting Date </td>
+                    <th colspan='2' style="width:20%; text-align: left; font-size: 9px !important;"> Voucher No </td>
+                    <th colspan='2' style="width:20%; text-align: left; font-size: 9px !important;"> Cheque Date </td>
+                    <th colspan='1' style="width:20%; text-align: right; font-size: 9px !important;"> Cheque No </td>
+                    <th colspan='2' style="width:20%; text-align: right; font-size: 9px !important;"> Cheque Amount </td>
+                </tr>
+
+                {% for pdc in pdc_rows %}
+                {% if pdc.get("cheque_no") %}
+                <tr style="width: 100%">
+                    <td colspan='2' style="width:20%; text-align: left; font-size: 9px !important;"> {{ pdc.posting_date}}</td>
+                    <td colspan='2' style="width:20%; text-align: left; font-size: 9px !important;"> {{ pdc.cheque_no }}</td>
+                    <td colspan='2' style="width:20%; text-align: left; font-size: 9px !important;"> {{ pdc.reference_date }}</td>
+                    <td colspan='1' style="width:20%; text-align: right; font-size: 9px !important;"> {{ pdc.reference_no }}</td>
+                    <td colspan='2' style="width:20%; text-align: right; font-size: 9px !important;"> {{ "{:,.2f}".format(pdc.paid_amount|flt) }}</td>
+                </tr>
+                {% endif%}
+                {% endfor %}
+                
+                <tr style="width: 100%">
+                    <td colspan='7' style="width: 20%; text-align: right; font-weight: 700; font-size: 9px !important;"> Total PDC Amount: </td>
+                    <td colspan='2' style="width:20%; text-align: right; font-weight: 700; font-size: 9px !important;"> {{ '{:,.2f}'.format(pdc_total_amount|flt or 0.0) }}</td>
+                </tr>
+                
+                <tr style="width: 100%">
+                    <td colspan='7' style="width: 20%; text-align: right; font-weight: 700; font-size: 9px !important;"> Total Net Amount: </td>
+                    <td colspan='2' style="width:20%; text-align: right; font-weight: 700; font-size: 9px !important;"> {{ '{0:,.2f}'.format(amount_due|flt - pdc_total_amount|flt) }}</td>
+                </tr>
+
+            </table>
+        </td>
+    </tr>
+    </table>
+</div>
+
+<div id="footer-html" class="visible-pdf">
+    {% if not no_letterhead and footer %}
+    <div class="letter-head-footer">
+        {{ footer }}
+    </div>
+    {% endif %}
+    <p class="text-center small page-number visible-pdf">
+        {{ _("Page {0} of {1}").format('<span class="page"></span>', '<span class="topage"></span>') }}
+    </p>
+</div>
