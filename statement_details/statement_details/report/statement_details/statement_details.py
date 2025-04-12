@@ -998,14 +998,9 @@ def get_pd_cheque_detail(filters):
     return cheque_list
 
 
-import datetime
-import frappe
 
-import datetime
-import frappe
 
-import datetime
-import frappe
+
 
 def get_header(filters):
     # Fetch the content of the specific letter head
