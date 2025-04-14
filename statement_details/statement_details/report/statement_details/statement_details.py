@@ -87,9 +87,6 @@ def execute(filters=None):
     totals_after_pd = {}
     if cheque_list_detail:
         for d in cheque_list_detail:
-            # due_n_balance = data[-1]["balance"]
-            # check_amount_total = cheque_list_detail[-1]["p_paid_amount"] or 0.0
-            # final_dues_after_pd = due_n_balance - check_amount_total
             total_pd_amount += d.get("p_paid_amount")
 
         total_final_dues_after_pd = data[-1]["balance"] - total_pd_amount
@@ -525,13 +522,6 @@ def get_conditions(filters):
 
     if not filters.get("show_cancelled_entries"):
         conditions.append("is_cancelled = 0")
-
-    # from frappe.desk.reportview import build_match_conditions
-
-    # match_conditions = build_match_conditions("GL Entry")
-
-    # if match_conditions:
-    #     conditions.append(match_conditions)
 
     if filters.get("include_dimensions"):
         accounting_dimensions = get_accounting_dimensions(as_list=False)
@@ -976,30 +966,39 @@ def get_supplier_customer_sales_return(filters):
 def get_pd_cheque_detail(filters):
     cheque_list = []
     if filters.get("party_type") and filters.get("party"):
+        # Check if Post Dated Cheques table exists
+        table_exists = frappe.db.sql("""
+            SELECT COUNT(*)
+            FROM information_schema.tables 
+            WHERE table_schema = DATABASE()
+            AND table_name = 'tabPost Dated Cheques'
+        """)[0][0]
+
+        if not table_exists:
+            return []
+
         filters.party = frappe.parse_json(filters.get("party"))
         party = str(filters.party[0])
-        data = []
 
-        cheque_list = frappe.db.sql(
-            """ 
-            select name as pd_cheque_name, DATE_FORMAT(posting_date, "%d/%m/%Y") as pd_posting_date,   
-            reference_no  as pd_reference_no,
-            DATE_FORMAT(reference_date,"%d/%m/%Y") as pd_reference_date, 
-            base_amount as p_paid_amount
-            from `tabPost Dated Cheques`
-            where docstatus=1 and status='Pending' and party_type = '{}' and party = '{}'
-            order by reference_date
-         """.format(
-                filters.get("party_type"), party
-            ),
-            as_dict=1,
-        )
+        try:
+            cheque_list = frappe.db.sql(
+                """ 
+                select name as pd_cheque_name, DATE_FORMAT(posting_date, "%d/%m/%Y") as pd_posting_date,   
+                reference_no as pd_reference_no,
+                DATE_FORMAT(reference_date,"%d/%m/%Y") as pd_reference_date, 
+                base_amount as p_paid_amount
+                from `tabPost Dated Cheques`
+                where docstatus=1 and status='Pending' and party_type = %s and party = %s
+                order by reference_date
+                """,
+                (filters.get("party_type"), party),
+                as_dict=1
+            )
+        except Exception as e:
+            frappe.log_error(f"Error fetching PD cheques: {str(e)}")
+            return []
 
     return cheque_list
-
-
-
-
 
 
 def get_header(filters):

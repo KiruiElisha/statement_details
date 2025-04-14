@@ -251,7 +251,7 @@
   
   <div class="header">
     <div class="logo-section">
-      {%= (data[data.length - 1].headers) %}
+      {%= data[data.length - 1].headers %}
     </div>
   </div>
 
@@ -262,20 +262,20 @@
           <table width="100%">
             <tr>
               <td style="font-weight: 600; color: #8c99b5; padding: 4px 8px 4px 0; width: 100px;">{%= filters.party_type %}:</td>
-              <td style="font-weight: 500; color: #4d5875; padding: 4px 0;">{%= filters.party_name %}</td>
+              <td style="font-weight: 500; color: #4d5875; padding: 4px 0;">{%= filters.party[0] %}</td>
             </tr>
             <tr>
               <td style="font-weight: 600; color: #8c99b5; padding: 4px 8px 4px 0; width: 100px;">{%= __("Email ID") %}:</td>
-              <td style="font-weight: 500; color: #4d5875; padding: 4px 0;">{%= (data[data.length - 1].customer_personal_detial["email_id"]) %}</td>
+              <td style="font-weight: 500; color: #4d5875; padding: 4px 0;">{%= data[data.length - 1].customer_personal_detial.email_id || "" %}</td>
             </tr>
             <tr>
               <td style="font-weight: 600; color: #8c99b5; padding: 4px 8px 4px 0; width: 100px;">{%= __("PIN#") %}:</td>
-              <td style="font-weight: 500; color: #4d5875; padding: 4px 0;">{%= (data[data.length - 1].customer_personal_detial["pincode"]) %}</td>
+              <td style="font-weight: 500; color: #4d5875; padding: 4px 0;">{%= data[data.length - 1].customer_personal_detial.pincode || "" %}</td>
             </tr>
-            {% if (data[data.length - 1].customer_personal_detial["phone"]) %}
+            {% if data[data.length - 1].customer_personal_detial.phone %}
             <tr>
               <td style="font-weight: 600; color: #8c99b5; padding: 4px 8px 4px 0; width: 100px;">{%= __("Phone") %}:</td>
-              <td style="font-weight: 500; color: #4d5875; padding: 4px 0;">{%= (data[data.length - 1].customer_personal_detial["phone"]) %}</td>
+              <td style="font-weight: 500; color: #4d5875; padding: 4px 0;">{%= data[data.length - 1].customer_personal_detial.phone %}</td>
             </tr>
             {% endif %}
           </table>
@@ -285,14 +285,20 @@
           <table width="100%">
             <tr>
               <td style="font-weight: 600; color: #8c99b5; padding: 4px 8px 4px 0; width: 100px;">{%= __("Currency") %}:</td>
-              <td style="font-weight: 500; color: #4d5875; padding: 4px 0; text-align: right;">{%= (data[data.length - 1].customer_personal_detial["currency"]) %}</td>
+              <td style="font-weight: 500; color: #4d5875; padding: 4px 0; text-align: right;">{%= data[data.length - 1].customer_personal_detial.currency || "" %}</td>
             </tr>
             <tr>
               <td style="font-weight: 600; color: #8c99b5; padding: 4px 8px 4px 0; width: 100px;">{%= __("Due Balance") %}:</td>
-              <td style="font-weight: 500; color: #4d5875; padding: 4px 0; text-align: right;">{%= (data[data.length - 1].customer_personal_detial["due_balance"]) %}</td>
+              <td style="font-weight: 500; color: #4d5875; padding: 4px 0; text-align: right;">{%= format_currency(data[data.length - 1].balance, data[data.length - 1].account_currency) %}</td>
             </tr>
+            {% if data[data.length - 1].totals_pds %}
             <tr>
-              <td style="font-weight: 600; color: #8c99b5; padding: 4px 8px 4px 0; width: 100px;">Period:</td>
+              <td style="font-weight: 600; color: #8c99b5; padding: 4px 8px 4px 0; width: 100px;">{%= __("PD Cheques") %}:</td>
+              <td style="font-weight: 500; color: #4d5875; padding: 4px 0; text-align: right;">{%= format_currency(data[data.length - 1].totals_pds.p_paid_amount, data[data.length - 1].account_currency) %}</td>
+            </tr>
+            {% endif %}
+            <tr>
+              <td style="font-weight: 600; color: #8c99b5; padding: 4px 8px 4px 0; width: 100px;">{%= __("Period") %}:</td>
               <td style="font-weight: 500; color: #4d5875; padding: 4px 0; text-align: right;">{%= frappe.datetime.str_to_user(filters.from_date) %} - {%= frappe.datetime.str_to_user(filters.to_date) %}</td>
             </tr>
           </table>
@@ -310,34 +316,71 @@
         <th>{%= __("Date") %}</th>
         <th>{%= __("No") %}</th>
         <th>{%= __("Description") %}</th>
+        <th>{%= __("Item") %}</th>
         <th>{%= __("Allocation") %}</th>
-        <!-- <th>{%= __("Chq Ref Date") %}</th> -->
         <th>{%= __("Mode of Payment") %}</th>
-        <!-- <th>{%= __("Cheque / Reference No") %}</th> -->
         <th class="text-right">{%= __("Debit") %}</th>
         <th class="text-right">{%= __("Credit") %}</th>
         <th class="text-right">{%= __("Balance") %}</th>
       </tr>
     </thead>
     <tbody>
-      {% for(var i=0, l=data.length; i<l-2; i++) { %}
-      <tr>
+      {% for(var i=0; i<data.length-2; i++) { %}
         {% if(data[i]) { %}
-        <td>{%= frappe.datetime.str_to_user(data[i].posting_date) %}</td>
-        <td>{%= (data[i].voucher_no) %}</td>
-        <td>{%= (data[i].voucher_type) %}</td>
-        <td>{%= (data[i].against_voucher) %}</td>
-        <!-- <td>{%= (data[i].chq_ref_date) %}</td> -->
-        <td>{%= (data[i].mode_of_payment) %}</td>
-        <!-- <td>{%= (data[i].cheque_no) %}</td> -->
-        <td class="text-right">{%= format_number(data[i].debit, null, 2) %}</td>
-        <td class="text-right">{%= format_number(data[i].credit, null, 2) %}</td>
-        <td class="text-right">{%= format_number(data[i].balance, null, 2) %}</td>
+        <tr>
+          <td>{%= frappe.datetime.str_to_user(data[i].posting_date) %}</td>
+          <td>{%= data[i].voucher_no %}</td>
+          <td>{%= data[i].voucher_type %}</td>
+          <td>{%= data[i].item_name || "" %}</td>
+          <td>{%= data[i].against_voucher || "" %}</td>
+          <td>{%= data[i].mode_of_payment || "" %}</td>
+          <td class="text-right">{%= format_currency(data[i].debit, data[i].account_currency) %}</td>
+          <td class="text-right">{%= format_currency(data[i].credit, data[i].account_currency) %}</td>
+          <td class="text-right">{%= format_currency(data[i].balance, data[i].account_currency) %}</td>
+        </tr>
         {% } %}
-      </tr>
       {% } %}
     </tbody>
   </table>
+
+  {% if(data[data.length - 1].cheque_list && data[data.length - 1].cheque_list.length) { %}
+  <div class="pd-cheques-section" style="margin-top: 20px;">
+    <div class="ageing-header">{%= __("PD Cheques") %}</div>
+    <table class="ageing-table">
+      <thead>
+        <tr>
+          <th>{%= __("Date") %}</th>
+          <th>{%= __("Reference No") %}</th>
+          <th>{%= __("Reference Date") %}</th>
+          <th class="text-right">{%= __("Amount") %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for(var i=0; i<data[data.length - 1].cheque_list.length; i++) { %}
+        {% var cheque = data[data.length - 1].cheque_list[i]; %}
+        <tr>
+          <td>{%= frappe.datetime.str_to_user(cheque.pd_posting_date) %}</td>
+          <td>{%= cheque.pd_reference_no || "" %}</td>
+          <td>{%= frappe.datetime.str_to_user(cheque.pd_reference_date) %}</td>
+          <td class="text-right">{%= format_currency(cheque.p_paid_amount, data[data.length - 1].account_currency) %}</td>
+        </tr>
+        {% } %}
+        <tr style="font-weight: bold;">
+          <td colspan="3" style="text-align: right;">Total PD Amount:</td>
+          <td class="text-right">{%= format_number(data[data.length - 1].totals_pds.p_paid_amount, null, 2) %}</td>
+        </tr>
+        <tr style="font-weight: bold;">
+          <td colspan="3" style="text-align: right;">Due Amount:</td>
+          <td class="text-right">{%= format_number(data[data.length - 1].totals_balance.p_paid_amount, null, 2) %}</td>
+        </tr>
+        <tr style="font-weight: bold;">
+          <td colspan="3" style="text-align: right;">Due Amount After PDs:</td>
+          <td class="text-right">{%= format_number(data[data.length - 1].totals_after_pd.p_paid_amount, null, 2) %}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  {% endif %}
 
   <div class="totals-section">
     <table class="totals-table">
